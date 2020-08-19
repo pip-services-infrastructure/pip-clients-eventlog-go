@@ -1,6 +1,9 @@
-package clients
+package version1
 
 import (
+	"os"
+	"time"
+
 	sdata1 "github.com/pip-services-infrastructure/pip-services-eventlog-go/data/version1"
 	slogic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
 	cdata "github.com/pip-services3-go/pip-services3-commons-go/data"
@@ -23,7 +26,7 @@ func NewEventLogDirectClientV1() *EventLogDirectClientV1 {
 func (c *EventLogDirectClientV1) SetReferences(references cref.IReferences) {
 	c.DirectClient.SetReferences(references)
 
-	controller, ok := c.Controller.(slogic.IEventLogClientV1)
+	controller, ok := c.Controller.(slogic.IEventLogController)
 	if !ok {
 		panic("EventLogDirectClientV1: Cant't resolv dependency 'controller' to IEventLogClientV1")
 	}
@@ -85,10 +88,15 @@ func (c *EventLogDirectClientV1) GetEvents(correlationId string, filter *cdata.F
 	return fromServerPage(res), err
 }
 
-func (c *EventLogDirectClientV1) LogEvent(correlationId string, event *SystemEventV1) (*SystemEventV1, error) {
+func (c *EventLogDirectClientV1) LogEvent(correlationId string, event *SystemEventV1) error {
+	event.Time = time.Now()
+	if event.Source == "" {
+		event.Source, _ = os.Hostname()
+	}
+
 	timing := c.Instrument(correlationId, "eventlog.log_event")
 	p1 := toServerObject(event)
-	res, err = c.controller.LogEvent(correlationId, p1)
+	err := c.controller.LogEvent(correlationId, p1)
 	timing.EndTiming()
-	return fromServerObject(res), err
+	return err
 }
