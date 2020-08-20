@@ -1,32 +1,32 @@
-package test_version1
+package test_clients1
 
 import (
 	"testing"
 
-	version1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
+	clients1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
 	"github.com/stretchr/testify/assert"
 )
 
 type EventLogClientV1Fixture struct {
-	Event1 *version1.SystemEventV1
-	Event2 *version1.SystemEventV1
-	client version1.IEventLogClientV1
+	Event1 *clients1.SystemEventV1
+	Event2 *clients1.SystemEventV1
+	client clients1.IEventLogClientV1
 }
 
-func NewEventLogClientV1Fixture(client version1.IEventLogClientV1) *EventLogClientV1Fixture {
+func NewEventLogClientV1Fixture(client clients1.IEventLogClientV1) *EventLogClientV1Fixture {
 	c := EventLogClientV1Fixture{}
-	c.Event1 = &version1.SystemEventV1{
+	c.Event1 = &clients1.SystemEventV1{
 		Id:       "1",
 		Source:   "test",
-		Type:     version1.Restart,
-		Severity: version1.Important,
+		Type:     clients1.Restart,
+		Severity: clients1.Important,
 		Message:  "test restart #1",
 	}
-	c.Event2 = &version1.SystemEventV1{
+	c.Event2 = &clients1.SystemEventV1{
 		Id:       "2",
 		Source:   "test",
-		Type:     version1.Failure,
-		Severity: version1.Critical,
+		Type:     clients1.Failure,
+		Severity: clients1.Critical,
 		Message:  "test error",
 	}
 	c.client = client

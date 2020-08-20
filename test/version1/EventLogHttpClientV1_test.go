@@ -1,27 +1,27 @@
-package test_version1
+package test_clients1
 
 import (
 	"testing"
 
-	version1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
-	slogic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
-	spersist "github.com/pip-services-infrastructure/pip-services-eventlog-go/persistence"
-	sservices1 "github.com/pip-services-infrastructure/pip-services-eventlog-go/services/version1"
+	clients1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
+	logic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
+	persist "github.com/pip-services-infrastructure/pip-services-eventlog-go/persistence"
+	services1 "github.com/pip-services-infrastructure/pip-services-eventlog-go/services/version1"
 	cconf "github.com/pip-services3-go/pip-services3-commons-go/config"
 	cref "github.com/pip-services3-go/pip-services3-commons-go/refer"
 )
 
 func TestEventLogHttpClientV1(t *testing.T) {
-	var persistence *spersist.EventLogMemoryPersistence
-	var controller *slogic.EventLogController
-	var service *sservices1.EventLogHttpServiceV1
-	var client *version1.EventLogHttpClientV1
+	var persistence *persist.EventLogMemoryPersistence
+	var controller *logic.EventLogController
+	var service *services1.EventLogHttpServiceV1
+	var client *clients1.EventLogHttpClientV1
 	var fixture *EventLogClientV1Fixture
 
-	persistence = spersist.NewEventLogMemoryPersistence()
+	persistence = persist.NewEventLogMemoryPersistence()
 	persistence.Configure(cconf.NewEmptyConfigParams())
 
-	controller = slogic.NewEventLogController()
+	controller = logic.NewEventLogController()
 	controller.Configure(cconf.NewEmptyConfigParams())
 
 	httpConfig := cconf.NewConfigParamsFromTuples(
@@ -30,10 +30,10 @@ func TestEventLogHttpClientV1(t *testing.T) {
 		"connection.host", "localhost",
 	)
 
-	service = sservices1.NewEventLogHttpServiceV1()
+	service = services1.NewEventLogHttpServiceV1()
 	service.Configure(httpConfig)
 
-	client = version1.NewEventLogHttpClientV1()
+	client = clients1.NewEventLogHttpClientV1()
 	client.Configure(httpConfig)
 
 	references := cref.NewReferencesFromTuples(

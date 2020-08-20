@@ -5,7 +5,7 @@ import (
 	"time"
 
 	sdata1 "github.com/pip-services-infrastructure/pip-services-eventlog-go/data/version1"
-	slogic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
+	logic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
 	cdata "github.com/pip-services3-go/pip-services3-commons-go/data"
 	cref "github.com/pip-services3-go/pip-services3-commons-go/refer"
 	clients "github.com/pip-services3-go/pip-services3-rpc-go/clients"
@@ -13,7 +13,7 @@ import (
 
 type EventLogDirectClientV1 struct {
 	clients.DirectClient
-	controller slogic.IEventLogController
+	controller logic.IEventLogController
 }
 
 func NewEventLogDirectClientV1() *EventLogDirectClientV1 {
@@ -26,7 +26,7 @@ func NewEventLogDirectClientV1() *EventLogDirectClientV1 {
 func (c *EventLogDirectClientV1) SetReferences(references cref.IReferences) {
 	c.DirectClient.SetReferences(references)
 
-	controller, ok := c.Controller.(slogic.IEventLogController)
+	controller, ok := c.Controller.(logic.IEventLogController)
 	if !ok {
 		panic("EventLogDirectClientV1: Cant't resolv dependency 'controller' to IEventLogClientV1")
 	}
