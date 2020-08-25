@@ -4,111 +4,93 @@ This is a Node.js client SDK for [pip-services-eventlog](https://github.com/pip-
 It provides an easy to use abstraction over communication protocols:
 
 * HTTP/REST client
-* Seneca client (see http://www.senecajs.org)
 * Direct client for monolythic deployments
 * Null client to be used in testing
 
 <a name="links"></a> Quick Links:
 
-* [Development Guide](doc/Development.md)
-* [API Version 1](doc/NodeClientApiV1.md)
-
-## Install
-
-Add dependency to the client SDK into **package.json** file of your project
-```javascript
-{
-    ...
-    "dependencies": {
-        ....
-        "pip-clients-eventlog-node": "^1.0.*",
-        ...
-    }
-}
-```
-
-Then install the dependency using **npm** tool
-```bash
-# Install new dependencies
-npm install
-
-# Update already installed dependencies
-npm update
-```
+* [Development Guide](docs/Development.md)
+* [API Version 1](docs/NodeClientApiV1.md)
 
 ## Use
 
+The easiest way to work with the microservice is to use client SDK. 
+The complete list of available client SDKs for different languages is listed in the [Quick Links](#links)
+
+If you use Golang then you should add dependency to the client SDK into **go.mod** file of your project
+```golang
+...
+require (
+
+    github.com/pip-services-infrastructure/pip-services-eventlog-go v1.0.0
+    ....
+)
+
+```
+
 Inside your code get the reference to the client SDK
-```javascript
-var sdk = new require('pip-clients-eventlog-node');
+```golang
+import (
+	clients1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
+)
+
+var client *clients1.EventLogHttpClientV1
 ```
 
 Define client configuration parameters that match configuration of the microservice external API
-```javascript
+```golang
 // Client configuration
-var config = {
-    connection: {
-        protocol: 'http',
-        host: 'localhost', 
-        port: 8080
-    }
-};
+httpConfig := cconf.NewConfigParamsFromTuples(
+		"connection.protocol", "http",
+		"connection.port", "3000",
+		"connection.host", "localhost",
+	)
+
+	client = clients1.NewEventLogHttpClientV1()
+	client.Configure(httpConfig)
 ```
 
 Instantiate the client and open connection to the microservice
-```javascript
-// Create the client instance
-var client = sdk.EventLogHttpClientV1(config);
+```golang
 
 // Connect to the microservice
-client.open(null, function(err) {
-    if (err) {
-        console.error('Connection to the microservice failed');
-        console.error(err);
-        return;
+err := client.Open("")
+ if (err) {
+        panic("Connection to the microservice failed");
     }
-    
-    // Work with the microservice
-    ...
-});
+defer client.Close("")
+// Work with the microservice
+
 ```
 
 Now the client is ready to perform operations
-```javascript
+```golang
 // Log system event
-client.logEvent(
-    null,
-    { 
-        type: 'restart',
-        source: 'server 1',
-        message: 'Server restarted'
-    },
-    function (err, event) {
-        ...
+event1:=&clients1.SystemEventV1{
+        Type: "restart",
+        source: "server1",
+        Message: "Restarted server",
     }
+
+err := client.LogEvent(
+    "",
+    event1,
 );
 ```
 
-```javascript
-var now = new Date();
+```golang
+var now = time.Now();
 
 // Get the list system events
-client.getEvents(
-    null,
-    {
-        from: new Date(now.getTime() - 24 * 3600 * 1000),
-        to: now,
-        source: 'server 1'
-    },
-    {
-        total: true,
-        skip: 0, 
-        take: 100
-    },
-    function(err, page) {
-    ...    
-    }
+page, err1 := client.getEvents(
+    "",
+    cdata.NewFilterParamsFromTuples(
+        "from_time": new Date(now.getTime() - 24 * 3600 * 1000),
+        "to_time": now,
+        "source": "server1"
+    ), cdata.NewEmptyPagingParams(),
 );
+
 ```    
 
 ## Acknowledgements
