@@ -4,8 +4,8 @@ import (
 	"os"
 	"time"
 
-	sdata1 "github.com/pip-services-infrastructure/pip-services-eventlog-go/data/version1"
-	logic "github.com/pip-services-infrastructure/pip-services-eventlog-go/logic"
+	sdata1 "github.com/NationalOilwellVarco/max-system/service-eventlog-go/data/version1"
+	logic "github.com/NationalOilwellVarco/max-system/service-eventlog-go/logic"
 	cdata "github.com/pip-services3-go/pip-services3-commons-go/data"
 	cref "github.com/pip-services3-go/pip-services3-commons-go/refer"
 	clients "github.com/pip-services3-go/pip-services3-rpc-go/clients"
@@ -19,7 +19,7 @@ type EventLogDirectClientV1 struct {
 func NewEventLogDirectClientV1() *EventLogDirectClientV1 {
 	c := EventLogDirectClientV1{}
 	c.DirectClient = *clients.NewDirectClient()
-	c.DependencyResolver.Put("controller", cref.NewDescriptor("pip-services-eventlog", "controller", "*", "*", "1.0"))
+	c.DependencyResolver.Put("controller", cref.NewDescriptor("nov-max-system-eventlog", "controller", "*", "*", "1.0"))
 	return &c
 }
 

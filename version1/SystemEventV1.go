@@ -11,7 +11,7 @@ type SystemEventV1 struct {
 	CorrelationId string               `json:"correlation_id" bson:"correlation_id"`
 	Source        string               `json:"source" bson:"source"`
 	Type          string               `json:"type" bson:"type"`
-	Severity      int64                `json:"severity" bson:"severity"`
+	Severity      int                  `json:"severity" bson:"severity"`
 	Message       string               `json:"message" bson:"message"`
 	Details       cdata.StringValueMap `json:"details" bson:"details"`
 }

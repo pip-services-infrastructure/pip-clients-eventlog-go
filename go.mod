@@ -1,9 +1,9 @@
-module github.com/pip-services-infrastructure/pip-clients-eventlog-go
+module github.com/NationalOilwellVarco/max-system/client-eventlog-go
 
 go 1.13
 
 require (
-	github.com/pip-services-infrastructure/pip-services-eventlog-go v0.0.0-20200819210050-a7266c8c5326
+	github.com/NationalOilwellVarco/max-system/service-eventlog-go v1.0.0
 	github.com/pip-services3-go/pip-services3-commons-go v1.0.1
 	github.com/pip-services3-go/pip-services3-components-go v1.0.2
 	github.com/pip-services3-go/pip-services3-rpc-go v1.0.2

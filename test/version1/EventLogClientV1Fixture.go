@@ -3,7 +3,7 @@ package test_clients1
 import (
 	"testing"
 
-	clients1 "github.com/pip-services-infrastructure/pip-clients-eventlog-go/version1"
+	clients1 "github.com/NationalOilwellVarco/max-system/client-eventlog-go/version1"
 	"github.com/stretchr/testify/assert"
 )
 

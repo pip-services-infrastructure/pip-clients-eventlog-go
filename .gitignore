@@ -1,5 +1,7 @@
-/node_modules
-/npm-debug.log
 /.idea
-/dist
-/obj/test
+/temp/*.json
+/obj
+/vendor
+/docker/id_rsa*
+.DS_Store
+go.sum

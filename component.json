@@ -1,0 +1,6 @@
+{
+    "name": "client-eventlog-go",
+    "version": "1.0.0",
+    "registry": "ghcr.io/nationaloilwellvarco",
+    "build": 0
+}

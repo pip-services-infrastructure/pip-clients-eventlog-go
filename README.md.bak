@@ -1,0 +1,99 @@
+# EventLog Microservice Client SDK for Node.js
+
+This is a Node.js client SDK for [nov-max-system-eventlog](https://github.com/pip-services-infrastructure/nov-max-system-eventlog-node) microservice.
+It provides an easy to use abstraction over communication protocols:
+
+* HTTP/REST client
+* Direct client for monolythic deployments
+* Null client to be used in testing
+
+<a name="links"></a> Quick Links:
+
+* [Development Guide](docs/Development.md)
+* [API Version 1](docs/NodeClientApiV1.md)
+
+## Use
+
+The easiest way to work with the microservice is to use client SDK. 
+The complete list of available client SDKs for different languages is listed in the [Quick Links](#links)
+
+If you use Golang then you should add dependency to the client SDK into **go.mod** file of your project
+```golang
+...
+require (
+
+    github.com/NationalOilwellVarco/max-system/service-eventlog-go v1.0.0
+    ....
+)
+
+```
+
+Inside your code get the reference to the client SDK
+```golang
+import (
+	clients1 "github.com/NationalOilwellVarco/max-system/client-eventlog-go/version1"
+)
+
+var client *clients1.EventLogHttpClientV1
+```
+
+Define client configuration parameters that match configuration of the microservice external API
+```golang
+// Client configuration
+httpConfig := cconf.NewConfigParamsFromTuples(
+		"connection.protocol", "http",
+		"connection.port", "3000",
+		"connection.host", "localhost",
+	)
+
+	client = clients1.NewEventLogHttpClientV1()
+	client.Configure(httpConfig)
+```
+
+Instantiate the client and open connection to the microservice
+```golang
+
+// Connect to the microservice
+err := client.Open("")
+ if (err) {
+        panic("Connection to the microservice failed");
+    }
+defer client.Close("")
+// Work with the microservice
+
+```
+
+Now the client is ready to perform operations
+```golang
+// Log system event
+event1:=&clients1.SystemEventV1{
+        Type: "restart",
+        source: "server1",
+        Message: "Restarted server",
+    }
+
+err := client.LogEvent(
+    "",
+    event1,
+);
+```
+
+```golang
+var now = time.Now();
+
+// Get the list system events
+page, err1 := client.getEvents(
+    "",
+    cdata.NewFilterParamsFromTuples(
+        "from_time": new Date(now.getTime() - 24 * 3600 * 1000),
+        "to_time": now,
+        "source": "server1"
+    ), cdata.NewEmptyPagingParams(),
+);
+
+```    
+
+## Acknowledgements
+
+This client SDK was created and currently maintained by *Sergey Seroukhov*.
+

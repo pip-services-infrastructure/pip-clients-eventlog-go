@@ -1,0 +1,3 @@
+#!/usr/bin/env pwsh
+
+# This is nothing to build...
